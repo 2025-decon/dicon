@@ -16,16 +16,11 @@ export default function Home() {
   // 사이드바의 너비. 이 값만큼 오른쪽 컨텐츠를 밀어낼 거야.
   const sidebarWidth = 177; 
   // CSS 시안의 좌우 여백
-  const mainPaddingX = 80; 
-  // 사이드바와 컨텐츠 영역 사이의 간격 (CSS 시안 기준: 311px - 177px = 134px)
-  // 하지만 그냥 mainPaddingX랑 똑같이 80px로 줘도 깔끔해. 
-  // 여기선 시안을 존중해서 311px(left) - 177px(sidebar width) = 134px로 계산
-  // 근데 134px는 너무 넓으니까, 
-  // (사이드바 177px) + (컨텐츠 좌측 여백 80px) = 257px
-  // 이렇게 계산하는 게 더 합리적일 것 같아.
+  const mainPaddingX = 160; 
+
   const contentMarginLeft = sidebarWidth;
 
-  return (
+return (
     <div style={{
       background: '#051225',
       minHeight: '100vh',
@@ -33,10 +28,7 @@ export default function Home() {
       fontFamily: "'Noto Sans KR', Arial, sans-serif"
     }}>
       
-      {/* Sidebar: 
-        position: fixed로 화면에 고정.
-        CSS 시안의 너비(177px)와 스타일 적용.
-      */}
+      {/* Sidebar: 👇 이 <aside> 블록을 통째로 바꿔줘! */}
       <aside style={{
         boxSizing: 'border-box',
         position: 'fixed', // 화면에 고정
@@ -47,15 +39,50 @@ export default function Home() {
         background: '#0B1B31',
         borderRight: '1px solid #132843', // CSS 시안의 border
         padding: 20,
-        // CSS 시안의 이상한 좌표(-24, -20)와 borderRadius는 레이아웃에 방해가 돼서 뺌
       }}>
-        <div style={{ fontWeight: 700, fontSize: 24, color: 'rgba(193,197,204,0.8)' }}>Promty</div>
+        
+        {/* 로고와 텍스트를 flex로 감싸기 */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center', // 세로 중앙 정렬
+          gap: 10 // 로고와 텍스트 사이 간격
+        }}>
+          
+          {/* 🔥 여기! 흰색 동그라미 배경 div */}
+          <div style={{
+            width: 32, // 동그라미 크기
+            height: 32,
+            borderRadius: '50%', // 원으로 만들기
+            background: '#FFFFFF', // 흰색 배경
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexShrink: 0 // 사이드바가 좁아져도 찌그러지지 않게
+          }}>
+            {/* 로고 이미지 (동그라미보다 약간 작게) */}
+            <img
+              src="\promty-logo.svg" // 👈 public 폴더의 로고 파일 경로
+              alt="Promty Logo"
+              style={{ 
+                width: 28,  // 로고 크기
+                height: 28, 
+                objectFit: 'contain' 
+              }}
+            />
+          </div>
+          
+          {/* Promty 텍스트 */}
+          <div style={{ 
+            fontWeight: 700, 
+            fontSize: 24, 
+            color: 'rgba(193,197,204,0.8)' 
+          }}>
+            Promty
+          </div>
+        </div>
+        
+        {/* <nav> ... (사이드바 메뉴가 있다면 여기에) ... </nav> */}
       </aside>
-
-      {/* Main Content Wrapper:
-        사이드바 너비(177px)만큼 왼쪽 여백(marginLeft)을 줘서 
-        컨텐츠가 사이드바에 가려지지 않게 함.
-      */}
       <div style={{ marginLeft: contentMarginLeft }}>
         
 {/* Top navigation */}
@@ -63,7 +90,7 @@ export default function Home() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-end', // 요소들을 오른쪽으로 정렬
-          padding: '20px 40px', 
+          padding: '20px 20px', 
         }}>
           
           <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
@@ -90,15 +117,15 @@ export default function Home() {
         </header>
 
         {/* Hero */}
-        <section style={{ padding: '80px 40px 20px 40px' }}>
+        <section style={{ padding: `80px ${mainPaddingX}px 20px ${mainPaddingX}px` }}>
           <h1 style={{
             fontSize: 64,
             lineHeight: '77px',
             fontWeight: 700,
             margin: 0,
-            maxWidth: 813, // CSS 시안의 너비를 최대 너비로
+            maxWidth: 900, // CSS 시안의 너비를 최대 너비로
           }}>
-            AI 프롬프트를 더욱<br />스마트하게
+            AI 프롬프트를 더욱 스마트하게
           </h1>
           <p style={{
             color: 'rgba(193,197,204,0.8)',
@@ -144,7 +171,7 @@ export default function Home() {
         </section>
 
         {/* Main feature cards */}
-        <main style={{ padding: '20px 40px 120px 40px' }}>
+        <main style={{ padding: `20px ${mainPaddingX}px 120px ${mainPaddingX}px` }}>
           <h2 style={{ fontSize: 30, fontWeight: 700, marginBottom: 24 }}>
             주요 기능
           </h2>
