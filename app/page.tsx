@@ -1,131 +1,137 @@
 import Link from "next/link";
 import Image from "next/image";
-import React from "react"; // React.Fragment 같은 걸 쓸 수 있으니 import
+import React, { JSX } from "react"; // 👈 TSX에서는 React 임포트가 명시적인 것이 좋습니다.
 
-export default function Home() {
-  
-  // 인기 프롬프트 카드에 들어갈 내용
-  const popularTopics = [
-    { text: '게임 개발' },
-    { text: '디자인' },
-    { text: '연애 조언' },
-    { text: '밥 추천' },
-    // { text: '더 추가해도 됨' },
-  ];
-  
-  // 사이드바의 너비. 이 값만큼 오른쪽 컨텐츠를 밀어낼 거야.
-  const sidebarWidth = 177; 
-  // CSS 시안의 좌우 여백
-  const mainPaddingX = 160; 
+// 🔥 추가됨: featureCards 배열의 객체 타입을 정의합니다.
+interface FeatureCard {
+  tag: string;
+  title: string;
+  description: string;
+  demoText: string;
+}
 
+// 🔥 수정됨: 컴포넌트의 반환 타입을 JSX.Element로 명시합니다.
+export default function Home(): JSX.Element {
+  
+  // 1. 사이드바 너비가 153px로 변경됨
+  const sidebarWidth = 153; 
   const contentMarginLeft = sidebarWidth;
 
-return (
+  // 2. 새로운 '주요 기능' 카드 데이터
+  // 🔥 수정됨: 'FeatureCard' 인터페이스의 배열 타입으로 지정합니다.
+  const featureCards: FeatureCard[] = [
+    {
+      tag: '프롬프트생성',
+      title: '상황을 입력하면 자동으로 맞춤형 프롬프트를 제작',
+      description: '자신의 상황에 가장 적절한 프롬프트를 맞춤 제작 받아보세요.',
+      demoText: '당신이 처한 상황을 설명해주세요.'
+    },
+    {
+      tag: '아이디어공유',
+      title: '자신의 아이디어를 창의마당을 통해 공유하기',
+      description: '자신과 비슷한 상황에 처한 사람들의 프롬프트를 참고해보세요.',
+      demoText: '검색어를 입력하세요'
+    },
+    {
+      tag: '상황맞춤추천',
+      title: '나의 상황에 대응하기 가장 적절한 AI 맞춤 추천',
+      description: '자신이 처한 상황에 가장 적절한 AI를 추천받아 사용해보세요.',
+      demoText: '인기글'
+    }
+  ];
+
+  return (
     <div style={{
       background: '#051225',
       minHeight: '100vh',
       color: '#fff',
-      fontFamily: "'Noto Sans KR', Arial, sans-serif"
+      fontFamily: "'Noto Sans KR', Arial, sans-serif",
+      position: 'relative' 
     }}>
       
-      {/* Sidebar: 👇 이 <aside> 블록을 통째로 바꿔줘! */}
+      {/* 3. Sidebar */}
       <aside style={{
         boxSizing: 'border-box',
-        position: 'fixed', // 화면에 고정
+        position: 'fixed', 
         width: sidebarWidth,
-        height: '100vh', // 화면 전체 높이
+        height: '100vh', 
         left: 0,
         top: 0,
         background: '#0B1B31',
-        borderRight: '1px solid #132843', // CSS 시안의 border
-        padding: 20,
+      }}>
+        {/* 내용 없음 */}
+      </aside>
+
+      {/* 4. Main Content Wrapper */}
+      <div style={{ 
+        marginLeft: contentMarginLeft,
+        maxWidth: `calc(100vw - ${contentMarginLeft}px)`,
+        padding: '0 40px',
+        margin: '0 auto'
       }}>
         
-        {/* 로고와 텍스트를 flex로 감싸기 */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center', // 세로 중앙 정렬
-          gap: 10 // 로고와 텍스트 사이 간격
-        }}>
-          
-          {/* 🔥 여기! 흰색 동그라미 배경 div */}
-          <div style={{
-            width: 32, // 동그라미 크기
-            height: 32,
-            borderRadius: '50%', // 원으로 만들기
-            background: '#FFFFFF', // 흰색 배경
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexShrink: 0 // 사이드바가 좁아져도 찌그러지지 않게
-          }}>
-            {/* 로고 이미지 (동그라미보다 약간 작게) */}
-            <img
-              src="\promty-logo.svg" // 👈 public 폴더의 로고 파일 경로
-              alt="Promty Logo"
-              style={{ 
-                width: 28,  // 로고 크기
-                height: 28, 
-                objectFit: 'contain' 
-              }}
-            />
-          </div>
-          
-          {/* Promty 텍스트 */}
-          <div style={{ 
-            fontWeight: 700, 
-            fontSize: 24, 
-            color: 'rgba(193,197,204,0.8)' 
-          }}>
-            Promty
-          </div>
-        </div>
-        
-        {/* <nav> ... (사이드바 메뉴가 있다면 여기에) ... </nav> */}
-      </aside>
-      <div style={{ marginLeft: contentMarginLeft }}>
-        
-{/* Top navigation */}
+        {/* 5. Top navigation */}
         <header style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'flex-end', // 요소들을 오른쪽으로 정렬
-          padding: '20px 20px', 
+          justifyContent: 'space-between', 
+          padding: '20px 0', 
         }}>
           
+          {/* 헤더 왼쪽: 로고 + 텍스트 */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{
+              width: 40,
+              height: 40,
+              borderRadius: '50%',
+              background: '#FFFFFF',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+              <Image
+                src="/logo.svg" 
+                alt="Promty Logo"
+                width={23} 
+                height={32}
+                style={{ objectFit: 'contain' }}
+              />
+            </div>
+            <div style={{ fontWeight: 700, fontSize: 36, color: 'rgba(193,197,204, 0.8)' }}>
+              Promty
+            </div>
+          </div>
+          
+          {/* 헤더 오른쪽: 메뉴 */}
           <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
             <Link href="/prompt" style={{ color: '#fff', textDecoration: 'none', fontSize: 18 }}>프롬프트 생성</Link>
-            <a style={{ color: '#fff', cursor: 'pointer', fontSize: 18 }}>도움말</a>
-            <a style={{ color: '#fff', cursor: 'pointer', fontSize: 18 }}>비고</a>
-            <a style={{ color: '#fff', cursor: 'pointer', fontSize: 18 }}>기타등등</a>
-            
-            {/* 🔥 여기! 주석 풀고 스타일 적용! */}
+            <a href="#" style={{ color: '#fff', cursor: 'pointer', fontSize: 18, textDecoration: 'none' }}>도움말</a>
+            <a href="#" style={{ color: '#fff', cursor: 'pointer', fontSize: 18, textDecoration: 'none' }}>비고</a>
+            <a href="#" style={{ color: '#fff', cursor: 'pointer', fontSize: 18, textDecoration: 'none' }}>기타등등</a>
             <Link href="/login" style={{
-              border: '1px solid #28405E', // CSS 시안의 테두리
+              border: '1px solid #28405E',
               borderRadius: 10,
-              padding: '8px 24px', // 버튼 크기
+              padding: '8px 24px',
               textDecoration: 'none',
               color: '#fff',
               fontSize: 18
             }}>
               로그인
             </Link>
-            
-            {/* 프로필 아이콘 (Ellipse 1) */}
             <div style={{ width: 50, height: 50, borderRadius: '50%', background: '#D9D9D9' }} />
           </div>
         </header>
 
-        {/* Hero */}
-        <section style={{ padding: `80px ${mainPaddingX}px 20px ${mainPaddingX}px` }}>
+        {/* 6. Hero */}
+  <section style={{ padding: '80px 0 20px 0' }}>
           <h1 style={{
             fontSize: 64,
             lineHeight: '77px',
             fontWeight: 700,
             margin: 0,
-            maxWidth: 900, // CSS 시안의 너비를 최대 너비로
+            maxWidth: 813,
           }}>
-            AI 프롬프트를 더욱 스마트하게
+            AI 프롬프트를 더욱<br />스마트하게
           </h1>
           <p style={{
             color: 'rgba(193,197,204,0.8)',
@@ -135,7 +141,6 @@ return (
           }}>
             프롬프트 생성, 비교, 추천까지 한번에
           </p>
-
           <div style={{ marginTop: 40, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
             <Link href="/create" style={{
               width: 266,
@@ -146,196 +151,261 @@ return (
               alignItems: 'center',
               justifyContent: 'center',
               fontWeight: 700,
-              fontSize: 24, // CSS 시안의 24px 적용
-              color: '#0B1B31',
+              fontSize: 24,
+              color: '#FFFFFF',
               textDecoration: 'none',
             }}>
               프롬프트 생성하기
             </Link>
-            <div style={{
+            
+            <button type="button" style={{
+              boxSizing: 'border-box',
               width: 184,
               height: 60,
-              borderRadius: 10,
               border: '1px solid #31C79B',
+              borderRadius: 10,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: '#fff',
               fontWeight: 700,
-              fontSize: 22, // CSS 시안의 22px 적용
-              boxSizing: 'border-box' // border 때문에 크기 밀리는 것 방지
+              fontSize: 22,
+              background: 'transparent', 
+              cursor: 'pointer', 
+              fontFamily: "'Noto Sans KR', Arial, sans-serif", 
             }}>
               기능 살펴보기
-            </div>
+            </button>
           </div>
         </section>
 
-        {/* Main feature cards */}
-        <main style={{ padding: `20px ${mainPaddingX}px 120px ${mainPaddingX}px` }}>
-          <h2 style={{ fontSize: 30, fontWeight: 700, marginBottom: 24 }}>
+        {/* 7. Main feature cards */}
+  <main style={{ padding: '20px 0 120px 0' }}>
+          <h2 style={{ fontSize: 48, fontWeight: 700, marginBottom: 24 }}>
             주요 기능
           </h2>
-
-          {/* 🔥 반응형 핵심 1:
-            카드들을 flex로 감싸고, flexWrap: 'wrap'을 줘서
-            공간이 부족하면 자동으로 줄바꿈되게 함
-          */}
-          <div style={{ display: 'flex', gap: 24, marginBottom: 24, flexWrap: 'wrap' }}>
-            
-            {/* 카드 1 (아이콘 포함) */}
-            <div style={{
-              boxSizing: 'border-box',
-              width: 266,
-              height: 167,
-              background: '#0B1B31',
-              border: '1px solid #132843',
-              borderRadius: 10,
-              padding: 20,
-              position: 'relative' // 아이콘 위치 잡기용
-            }}>
-              {/* CSS 시안의 아이콘 (React 컴포넌트나 이미지로 빼는 게 좋음) */}
-              <div style={{
+          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', justifyContent: 'center' }}>
+            {featureCards.map((card) => (
+              <div key={card.tag} style={{
                 boxSizing: 'border-box',
-                position: 'absolute',
-                width: 60,
-                height: 60,
-                left: 102, // 414 - 312 = 102 (카드 내부 상대 좌표)
-                top: 29,  // 481 - 452 = 29
-                border: '5px solid #31C79B',
-                borderRadius: 10,
-              }}>
-                <div style={{ position: 'absolute', width: 6, height: 30, left: 23, top: 13, background: '#31C79B' }} />
-                <div style={{ position: 'absolute', width: 6, height: 30, left: 23, top: 13, background: '#31C79B', transform: 'rotate(-90deg)' }} />
-              </div>
-              
-              <div style={{
-                position: 'absolute',
-                bottom: 20, // 561-452-167 = -58 (이상함). 그냥 padding에 맞춰서 텍스트 위치 잡음
-                left: 20,
-                fontWeight: 400,
-                fontSize: 24,
-                color: '#fff',
-              }}>
-                프롬프트 생성
-              </div>
-            </div>
-            
-            {/* 카드 2 */}
-            <div style={{
-              boxSizing: 'border-box',
-              width: 266,
-              height: 167,
-              background: '#0B1B31',
-              border: '1px solid #132843',
-              borderRadius: 10,
-              padding: 20,
-              display: 'flex',
-              alignItems: 'flex-end', // 텍스트를 아래로
-            }}>
-              <div style={{ fontWeight: 400, fontSize: 24, color: '#fff' }}>
-                상황 맞춤 추천
-              </div>
-            </div>
-
-            {/* 카드 3 */}
-            <div style={{
-              boxSizing: 'border-box',
-              width: 266,
-              height: 167,
-              background: '#0B1B31',
-              border: '1px solid #132843',
-              borderRadius: 10,
-              padding: 20,
-              display: 'flex',
-              alignItems: 'flex-end',
-            }}>
-              <div style={{ fontWeight: 400, fontSize: 24, color: '#fff' }}>
-                프롬프트 생성
-              </div>
-            </div>
-          </div>
-
-          <h3 style={{ fontSize: 30, fontWeight: 700, margin: '24px 0' }}>
-            🔥 인기 프롬프트
-          </h3>
-          
-          {/* 🔥 반응형 핵심 2:
-            여기도 flexWrap: 'wrap' 적용
-          */}
-          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-            {popularTopics.map((topic, i) => (
-              <div key={i} style={{
-                boxSizing: 'border-box',
-                width: 185,
-                height: 185,
+                width: 'calc((100% - 48px) / 3)',
+                minWidth: 300,
+                height: 571,
                 background: '#0B1B31',
                 border: '1px solid #132843',
                 borderRadius: 10,
-                // CSS 시안의 카드 내부 스타일 적용
-                position: 'relative', 
-                fontFamily: "'Noto Sans KR', sans-serif",
+                padding: '24px 22px'
               }}>
-                {/* 아이콘 박스 (CSS 시안의 상대 위치) */}
                 <div style={{
-                  boxSizing: 'border-box',
-                  position: 'absolute',
-                  width: 60,
-                  height: 37,
-                  left: 63, // 374-311=63 (카드 좌상단 기준)
-                  top: 38,  // 791-753=38
-                  background: '#16263C',
-                  border: '1px solid #17263C',
-                  borderRadius: 10,
-                }} />
-
-                {/* 텍스트 (CSS 시안의 상대 위치) */}
+                  width: 120,
+                  height: 40,
+                  background: '#33BEA1',
+                  borderRadius: 20,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: '#FFFFFF'
+                }}>
+                  {card.tag}
+                </div>
                 <div style={{
-                  position: 'absolute',
-                  left: 46, // 357-311=46
-                  top: 95,  // 848-753=95
-                  fontWeight: 400,
+                  marginTop: 44,
+                  fontWeight: 700,
                   fontSize: 24,
                   lineHeight: '29px',
                   color: '#FFFFFF',
-                  // 텍스트 중앙 정렬을 위해 수정
-                  width: 'calc(100% - 92px)', // 46*2
-                  textAlign: 'center',
+                  height: 64
                 }}>
-                  {topic.text}
+                  {card.title}
                 </div>
-                
-                {/* 하단 라인 (CSS 시안의 상대 위치) */}
                 <div style={{
-                  position: 'absolute',
-                  width: '100%', // 185px
-                  height: 0,
-                  left: 0,
-                  top: 150,  // 903-753=150
-                  border: '1px solid #132843',
-                }} />
+                  marginTop: 12,
+                  fontWeight: 500,
+                  fontSize: 16,
+                  lineHeight: '19px',
+                  color: 'rgba(193, 197, 204, 0.35)',
+                  height: 38
+                }}>
+                  {card.description}
+                </div>
+                <div style={{
+                  marginTop: 88,
+                  height: 180,
+                  background: '#051225',
+                  border: '1px solid #1F2C49',
+                  borderRadius: 15,
+                  padding: 18
+                }}>
+                  <div style={{
+                    fontSize: 20,
+                    fontWeight: 700,
+                    color: 'rgba(193, 197, 204, 0.35)',
+                  }}>
+                    {card.demoText}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
 
-          {/* Footer */}
-          <footer style={{
-            marginTop: 80, // CSS 시안 기준 (976 - (753+185) = 38) -> 좀 더 넉넉하게
-            display: 'flex',
-            gap: 24,
-            alignItems: 'center',
-            justifyContent: 'center', // 푸터 내용 중앙 정렬
-            fontSize: 18
-          }}>
-            <div style={{ color: '#fff' }}>개인정보</div>
-            <div style={{ color: '#fff' }}>이용약관</div>
-            <div style={{ color: '#fff' }}>문의</div>
-            {/* CSS 시안의 아이콘들 */}
-            <div style={{ width: 27, height: 27, borderRadius: '50%', background: '#D9D9D9' }} />
-            <div style={{ width: 27, height: 27, borderRadius: '50%', background: '#D9D9D9' }} />
-          </footer>
-          
+          {/* 8. AI Chat 섹션 */}
+          <section style={{ marginTop: 120 }}>
+            <h2 style={{ fontSize: 48, fontWeight: 700, marginBottom: 24 }}>
+              AI에게 맞춤 추천 받기
+            </h2>
+            {/* 사용자 입력 버블 */}
+            <div style={{ padding: '20px 0' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20 }}>
+                <div style={{
+                  background: '#213555',
+                  padding: '12px 16px',
+                  borderRadius: 24,
+                  maxWidth: 370,
+                  fontSize: 20,
+                  lineHeight: '24px',
+                  color: 'rgba(255, 255, 255, 0.7)'
+                }}>
+                  안녕
+                </div>
+              </div>
+              {/* AI 응답 버블 */}
+              <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
+                <div style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: '50%',
+                  background: '#FFFFFF',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Image 
+                    src="/logo.svg" 
+                    alt="Logo" 
+                    width={15} 
+                    height={22} 
+                    style={{ objectFit: 'contain' }} 
+                  />
+                </div>
+                <div style={{
+                  background: 'rgba(25, 44, 71, 0.5)',
+                  padding: '12px 16px',
+                  borderRadius: 10,
+                  maxWidth: 370,
+                  fontSize: 20,
+                  lineHeight: '24px',
+                  color: 'rgba(255, 255, 255, 0.7)'
+                }}>
+                  안녕하세요 프롬프트 제작 ai Promty 입니다. 당신의 상황을 설명해주시겠습니까?
+                </div>
+              </div>
+
+
+            </div>
+            
+            <form style={{
+              boxSizing: 'border-box',
+              width: '100%',
+              maxWidth: 1200,
+              margin: '0 auto',
+              height: 135,
+              background: '#041832',
+              border: '1px solid #1F2C49',
+              borderRadius: 20,
+              padding: '20px',
+              position: 'relative' 
+            }}>
+              <textarea
+                placeholder="Promty한테 물어보세요"
+                style={{
+                  fontSize: 20,
+                  fontWeight: 700,
+                  color: '#FFFFFF', 
+                  fontFamily: "'Noto Sans KR', Arial, sans-serif", 
+                  width: '100%',
+                  height: '100%',
+                  background: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  resize: 'none',
+                }}
+              />
+              <button type="submit" style={{
+                width: 35,
+                height: 35,
+                background: 'rgba(33, 53, 79, 0.3)',
+                borderRadius: '50%',
+                position: 'absolute',
+                right: 14,
+                bottom: 14,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: 'none', 
+                color: '#fff', 
+              }}>
+                <span style={{ fontSize: 20, transform: 'rotate(-90deg)' }}>^</span>
+              </button>
+            </form>
+          </section>
+
+
         </main>
       </div>
+
+      {/* 9. Footer */}
+      <footer style={{
+        width: '100%',
+        height: 392,
+        background: '#0B1B31',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 100 
+      }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+          {/* 푸터 로고 */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ 
+              width: 48, 
+              height: 48, 
+              borderRadius: '50%', 
+              background: '#FFFFFF',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <Image 
+                src="/logo.svg" 
+                alt="Logo" 
+                width={28} 
+                height={39} 
+                style={{ objectFit: 'contain' }} 
+              />
+            </div>
+            <div style={{ fontSize: 44, fontWeight: 700, color: 'rgba(193, 197, 204, 0.8)' }}>
+              Promty
+            </div>
+          </div>
+          <div style={{ fontSize: 18, color: '#7E8794' }}>Promty.com (아무튼 사이트 주소)</div>
+          
+          {/* 푸터 링크 */}
+          <div style={{ display: 'flex', gap: 16, marginTop: 20, fontSize: 18 }}>
+            <a href="#" style={{ color: '#C1C5CC', textDecoration: 'none' }}>버그 및 불편사항 제보</a>
+            <div style={{ color: '#4D5664' }}>|</div>
+            <a href="#" style={{ color: '#4D5664', textDecoration: 'none' }}>개인정보처리방침</a>
+            <div style={{ color: '#4D5664' }}>|</div>
+            <a href="#" style={{ color: '#4D5664', textDecoration: 'none' }}>이용약관</a>
+          </div>
+          <div style={{ marginTop: 40, fontSize: 18, color: '#4D5664' }}>
+            개인적인 문의또는 광고 문의는 (sunrint.promty.gmail.com)
+          </div>
+        </div>
+      </footer>
+
     </div>
   );
 }

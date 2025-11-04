@@ -45,7 +45,7 @@ const Login = () => {
             alignItems: 'center'
           }} aria-hidden>
             <img 
-              src="\promty-logo.svg" // 👈 네 SVG 파일 이름으로 바꿔! (예: /my-logo.svg)
+              src="\logo.svg" // 👈 네 SVG 파일 이름으로 바꿔! (예: /my-logo.svg)
               alt="Promty Logo"
               style={{ width: '80%', height: '80%', objectFit: 'contain' }}
             />
