@@ -65,9 +65,9 @@ export default function Home(): JSX.Element {
       {/* 4. Main Content Wrapper */}
       <div style={{ 
         marginLeft: contentMarginLeft,
-        maxWidth: `calc(100vw - ${contentMarginLeft}px)`,
+        width: `calc(100vw - ${contentMarginLeft}px)`,
         padding: '0 40px',
-        margin: '0 auto'
+        boxSizing : 'border-box',
       }}>
         
         {/* 5. Top navigation */}
@@ -304,52 +304,64 @@ export default function Home(): JSX.Element {
 
 
             </div>
-            
-            <form style={{
-              boxSizing: 'border-box',
-              width: '100%',
-              maxWidth: 1200,
-              margin: '0 auto',
-              height: 135,
-              background: '#041832',
-              border: '1px solid #1F2C49',
-              borderRadius: 20,
-              padding: '20px',
-              position: 'relative' 
-            }}>
-              <textarea
-                placeholder="Promty한테 물어보세요"
-                style={{
-                  fontSize: 20,
-                  fontWeight: 700,
-                  color: '#FFFFFF', 
-                  fontFamily: "'Noto Sans KR', Arial, sans-serif", 
-                  width: '100%',
-                  height: '100%',
-                  background: 'transparent',
-                  border: 'none',
-                  outline: 'none',
-                  resize: 'none',
-                }}
-              />
-              <button type="submit" style={{
-                width: 35,
-                height: 35,
-                background: 'rgba(33, 53, 79, 0.3)',
-                borderRadius: '50%',
-                position: 'absolute',
-                right: 14,
-                bottom: 14,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: 'none', 
-                color: '#fff', 
+                        
+            {/* 🔥 [수정] 
+              1. <form>을 <Link href="/context">로 변경
+              2. 내부에 있던 <textarea>와 <button>을 전부 <div>로 변경
+              3. Link에 textDecoration: 'none' 스타일 추가
+              4. 최상위 <div>에 cursor: 'pointer' 추가
+            */}
+            <Link href="/context" style={{ textDecoration: 'none' }}>
+              <div style={{
+                boxSizing: 'border-box',
+                width: '100%',
+                maxWidth: 1200,
+                margin: '0 auto',
+                height: 135,
+                background: '#041832',
+                border: '1px solid #1F2C49',
+                borderRadius: 20,
+                padding: '20px',
+                position: 'relative',
+                cursor: 'pointer' // 클릭 가능하다는 표시
               }}>
-                <span style={{ fontSize: 20, transform: 'rotate(-90deg)' }}>^</span>
-              </button>
-            </form>
+                {/* <textarea> 대신 <div>로 변경 (플레이스홀더 텍스트처럼 보이게) */}
+                <div
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 700,
+                    // placeholder 색상 적용
+                    color: 'rgba(193, 197, 204, 0.35)', 
+                    fontFamily: "'Noto Sans KR', Arial, sans-serif", 
+                    width: '100%',
+                    height: '100%',
+                    background: 'transparent',
+                    border: 'none',
+                    outline: 'none',
+                    resize: 'none',
+                  }}
+                >
+                  Promty한테 물어보세요
+                </div>
+                {/* <button> 대신 <div>로 변경 (기존 스타일 유지) */}
+                <div style={{
+                  width: 35,
+                  height: 35,
+                  background: 'rgba(33, 53, 79, 0.3)',
+                  borderRadius: '50%',
+                  position: 'absolute',
+                  right: 14,
+                  bottom: 14,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: 'none', 
+                  color: '#fff', 
+                }}>
+                  <span style={{ fontSize: 20, transform: 'rotate(-90deg)' }}>^</span>
+                </div>
+              </div>
+            </Link>
           </section>
 
 
