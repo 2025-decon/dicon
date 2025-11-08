@@ -88,11 +88,10 @@ const CreatePage: React.FC = () => {
   const aiIconLogo: CSSProperties = {
     width: '15px',
     height: '22px',
-    backgroundColor: '#33BEA1',
     backgroundSize: 'contain',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
-    backgroundImage: 'url(/디콘 로고 2.png)',
+    backgroundImage: 'url(/logo.svg)',
   };
 
   const aiText: CSSProperties = {
@@ -233,12 +232,6 @@ const CreatePage: React.FC = () => {
           </div>
         </div>
 
-        {/* 사용자 메시지 */}
-        <div style={userMessageContainer}>
-          <div style={userBubble}>
-            <p style={userText}>안녕</p>
-          </div>
-        </div>
       </main>
       
       <footer style={footer}>
