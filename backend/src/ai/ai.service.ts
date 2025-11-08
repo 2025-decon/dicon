@@ -15,7 +15,7 @@ export class AiService {
   async getRecommendation(dto: RecommendRequestDto): Promise<RecommendResponseDto> {
     try {
       const response = await firstValueFrom(
-        this.httpService.post(`${this.AI_SERVER_URL}/recommend`, {
+        this.httpService.post(`${this.AI_SERVER_URL}/ai/recommend`, {
           user_input: dto.userInput,
         }),
       );
@@ -37,7 +37,7 @@ export class AiService {
   async generatePrompt(dto: PromptRequestDto): Promise<PromptResponseDto> {
     try {
       const response = await firstValueFrom(
-        this.httpService.post(`${this.AI_SERVER_URL}/prompt`, {
+        this.httpService.post(`${this.AI_SERVER_URL}/ai/prompt`, {
           user_input: dto.userInput,
         }),
       );
