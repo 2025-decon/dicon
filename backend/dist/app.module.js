@@ -22,18 +22,22 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot(),
-            typeorm_1.TypeOrmModule.forRoot({
-                type: 'mysql',
-                host: process.env.DB_HOST,
-                port: Number(process.env.DB_PORT),
-                username: process.env.DB_USERNAME,
-                password: process.env.DB_PASSWORD,
-                database: process.env.DB_NAME,
-                entities: [`${__dirname}/**/entities/*.entity.{ts,js}`],
-                synchronize: Boolean(process.env.DB_SYNC),
-            }),
-            auth_module_1.AuthModule,
-            user_module_1.UserModule,
+            ...(process.env.DB_HOST
+                ? [
+                    typeorm_1.TypeOrmModule.forRoot({
+                        type: 'mysql',
+                        host: process.env.DB_HOST,
+                        port: Number(process.env.DB_PORT),
+                        username: process.env.DB_USERNAME,
+                        password: process.env.DB_PASSWORD,
+                        database: process.env.DB_NAME,
+                        entities: [`${__dirname}/**/entities/*.entity.{ts,js}`],
+                        synchronize: Boolean(process.env.DB_SYNC),
+                    }),
+                    auth_module_1.AuthModule,
+                    user_module_1.UserModule,
+                ]
+                : []),
             ai_module_1.AiModule,
         ],
         controllers: [app_controller_1.AppController],
