@@ -1,58 +1,40 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
-import { RecommendRequestDto } from './dto/recommend-request.dto';
-import { PromptRequestDto } from './dto/prompt-request.dto';
-import { RecommendResponseDto } from './dto/recommend-response.dto';
-import { PromptResponseDto } from './dto/prompt-response.dto';
+import { Injectable } from '@nestjs/common';
+import {
+  RecommendRequestDto,
+  PromptRequestDto,
+  RecommendResponseDto,
+  PromptResponseDto,
+} from './dto';
+import { AiConfig } from './config/ai.config';
+import { AiHttpClient } from './utils/ai-http.client';
+import { AiErrorHandler } from './utils/ai-error.handler';
 
 @Injectable()
 export class AiService {
-  private readonly AI_SERVER_URL = process.env.AI_SERVER_URL || 'http://localhost:8000';
-
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly config: AiConfig,
+    private readonly httpClient: AiHttpClient,
+  ) {}
 
   async getRecommendation(dto: RecommendRequestDto): Promise<RecommendResponseDto> {
     try {
-      const response = await firstValueFrom(
-        this.httpService.post(`${this.AI_SERVER_URL}/ai/recommend`, {
-          user_input: dto.userInput,
-        }),
+      return await this.httpClient.post<RecommendResponseDto>(
+        this.config.getRecommendEndpoint(),
+        { user_input: dto.userInput },
       );
-      return response.data;
     } catch (error) {
-      if (error.response) {
-        throw new HttpException(
-          error.response.data.detail || 'AI 추천 중 오류가 발생했습니다.',
-          error.response.status,
-        );
-      }
-      throw new HttpException(
-        'AI 서버와 통신 중 오류가 발생했습니다.',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      AiErrorHandler.handleError(error, 'AI 추천 중 오류가 발생했습니다.');
     }
   }
 
   async generatePrompt(dto: PromptRequestDto): Promise<PromptResponseDto> {
     try {
-      const response = await firstValueFrom(
-        this.httpService.post(`${this.AI_SERVER_URL}/ai/prompt`, {
-          user_input: dto.userInput,
-        }),
+      return await this.httpClient.post<PromptResponseDto>(
+        this.config.getPromptEndpoint(),
+        { user_input: dto.userInput },
       );
-      return response.data;
     } catch (error) {
-      if (error.response) {
-        throw new HttpException(
-          error.response.data.detail || 'AI 프롬프트 생성 중 오류가 발생했습니다.',
-          error.response.status,
-        );
-      }
-      throw new HttpException(
-        'AI 서버와 통신 중 오류가 발생했습니다.',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      AiErrorHandler.handleError(error, 'AI 프롬프트 생성 중 오류가 발생했습니다.');
     }
   }
 }

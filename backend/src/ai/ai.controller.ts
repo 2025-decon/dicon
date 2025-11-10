@@ -1,9 +1,11 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { AiService } from './ai.service';
-import { RecommendRequestDto } from './dto/recommend-request.dto';
-import { PromptRequestDto } from './dto/prompt-request.dto';
-import { RecommendResponseDto } from './dto/recommend-response.dto';
-import { PromptResponseDto } from './dto/prompt-response.dto';
+import {
+  RecommendRequestDto,
+  PromptRequestDto,
+  RecommendResponseDto,
+  PromptResponseDto,
+} from './dto';
 
 @Controller('ai')
 export class AiController {
