@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 import { UserEntity } from 'src/user/entities/user.entity';
 import { AuthDTO } from 'src/auth/dto/authDto';
@@ -39,5 +40,23 @@ export class UserService {
         nickname,
       },
     });
+  }
+
+  async updateNickname(userId: number, nickname: string) {
+    const user = await this.findById(userId);
+    if (!user) {
+      return null;
+    }
+    user.nickname = nickname;
+    return await this.userRepository.save(user);
+  }
+
+  async updatePassword(userId: number, newPassword: string) {
+    const user = await this.findById(userId);
+    if (!user) {
+      return null;
+    }
+    user.password = bcrypt.hashSync(newPassword, 10);
+    return await this.userRepository.save(user);
   }
 }

@@ -1,1 +1,0 @@
-# DICON Project
