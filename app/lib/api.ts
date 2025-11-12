@@ -94,24 +94,41 @@ export const api = {
  */
 export const authApi = {
   // 로그인
-  login: async (username: string, password: string) => {
-    const response = await api.post('/signin', { username, password });
+  login: async (email: string, password: string) => {
+    const response = await api.post<{
+      message: string;
+      accessToken: string;
+      user: { id: number; email: string; nickname: string };
+    }>('/signin', { email, password });
 
     if (response.data?.accessToken) {
       localStorage.setItem('accessToken', response.data.accessToken);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
     }
 
     return response;
   },
 
   // 회원가입
-  signup: async (username: string, password: string, nickname: string) => {
-    return api.post('/user/signup', { username, password, nickname });
+  signup: async (email: string, password: string, nickname: string) => {
+    return api.post('/user/signup', { email, password, nickname });
   },
 
   // 로그아웃
   logout: () => {
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
+  },
+
+  // 현재 로그인한 사용자 정보 가져오기
+  getCurrentUser: () => {
+    const userStr = localStorage.getItem('user');
+    return userStr ? JSON.parse(userStr) : null;
+  },
+
+  // 로그인 상태 확인
+  isAuthenticated: () => {
+    return !!localStorage.getItem('accessToken');
   },
 };
 
@@ -134,19 +151,29 @@ export const aiApi = {
  * 마이페이지 관련 API
  */
 export const mypageApi = {
-  // 사용자 정보 조회
+  // 사용자 정보 조회 (JWT 필수)
   getUserInfo: async () => {
-    return api.get('/mypage');
+    return api.get<{
+      id: number;
+      email: string;
+      nickname: string;
+      created_at: string;
+    }>('/mypage');
   },
 
-  // 닉네임 변경
+  // 닉네임 변경 (JWT 필수)
   updateNickname: async (nickname: string) => {
-    return api.patch('/mypage/nickname', { nickname });
+    return api.patch<{
+      message: string;
+      nickname: string;
+    }>('/mypage/nickname', { nickname });
   },
 
-  // 비밀번호 변경
-  updatePassword: async (oldPassword: string, newPassword: string) => {
-    return api.patch('/mypage/password', { oldPassword, newPassword });
+  // 비밀번호 변경 (JWT 필수)
+  updatePassword: async (currentPassword: string, newPassword: string) => {
+    return api.patch<{
+      message: string;
+    }>('/mypage/password', { currentPassword, newPassword });
   },
 };
 

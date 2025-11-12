@@ -22,7 +22,10 @@
       "Bash(then echo \"Backend .env exists\")",
       "Bash(cd:*)",
       "Bash(mysql:*)",
-      "Bash(TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImVtYWlsIjoidGVzdDE3NjI5NTY4NzlAdGVzdC5jb20iLCJuaWNrbmFtZSI6IuyCrOyaqeyekDE3NjI5NTY4NzkiLCJpYXQiOjE3NjI5NTY4NzksImV4cCI6MTc2MzA0MzI3OX0.jvroyp9PbG0K89K_5CaphOYV86JINYzcoU2IL747qjE\":*)"
+      "Bash(TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjUsImVtYWlsIjoidGVzdDE3NjI5NTY4NzlAdGVzdC5jb20iLCJuaWNrbmFtZSI6IuyCrOyaqeyekDE3NjI5NTY4NzkiLCJpYXQiOjE3NjI5NTY4NzksImV4cCI6MTc2MzA0MzI3OX0.jvroyp9PbG0K89K_5CaphOYV86JINYzcoU2IL747qjE\":*)",
+      "Bash(npm run dev:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)"
     ],
     "deny": [],
     "ask": []
