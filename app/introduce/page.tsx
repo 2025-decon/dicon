@@ -1,42 +1,42 @@
 import Link from "next/link";
 import Image from "next/image";
-import React, { JSX } from "react";
+import React, { JSX } from "react"; // 👈 TSX에서는 React 임포트가 명시적인 것이 좋습니다.
 
+// 🔥 추가됨: featureCards 배열의 객체 타입을 정의합니다.
 interface FeatureCard {
   tag: string;
   title: string;
   description: string;
   demoText: string;
-  href: string; // 🔥 추가: 각 카드의 링크 경로
 }
 
+// 🔥 수정됨: 컴포넌트의 반환 타입을 JSX.Element로 명시합니다.
 export default function Home(): JSX.Element {
   
+  // 1. 사이드바 너비가 153px로 변경됨
   const sidebarWidth = 153; 
   const contentMarginLeft = sidebarWidth;
 
-  // 🔥 수정: href 속성 추가
+  // 2. 새로운 '주요 기능' 카드 데이터
+  // 🔥 수정됨: 'FeatureCard' 인터페이스의 배열 타입으로 지정합니다.
   const featureCards: FeatureCard[] = [
     {
       tag: '프롬프트생성',
       title: '상황을 입력하면 자동으로 맞춤형 프롬프트를 제작',
       description: '자신의 상황에 가장 적절한 프롬프트를 맞춤 제작 받아보세요.',
-      demoText: '당신이 처한 상황을 설명해주세요.',
-      href: '/create'
+      demoText: '당신이 처한 상황을 설명해주세요.'
     },
     {
       tag: '아이디어공유',
       title: '자신의 아이디어를 창의마당을 통해 공유하기',
       description: '자신과 비슷한 상황에 처한 사람들의 프롬프트를 참고해보세요.',
-      demoText: '검색어를 입력하세요',
-      href: '/hub'
+      demoText: '검색어를 입력하세요'
     },
     {
       tag: '상황맞춤추천',
       title: '나의 상황에 대응하기 가장 적절한 AI 맞춤 추천',
       description: '자신이 처한 상황에 가장 적절한 AI를 추천받아 사용해보세요.',
-      demoText: '인기글',
-      href: '/context'
+      demoText: '인기글'
     }
   ];
 
@@ -49,7 +49,7 @@ export default function Home(): JSX.Element {
       position: 'relative' 
     }}>
       
-      {/* Sidebar */}
+      {/* 3. Sidebar */}
       <aside style={{
         boxSizing: 'border-box',
         position: 'fixed', 
@@ -59,9 +59,10 @@ export default function Home(): JSX.Element {
         top: 0,
         background: '#0B1B31',
       }}>
+        {/* 내용 없음 */}
       </aside>
 
-      {/* Main Content Wrapper */}
+      {/* 4. Main Content Wrapper */}
       <div style={{ 
         marginLeft: contentMarginLeft,
         width: `calc(100vw - ${contentMarginLeft}px)`,
@@ -69,7 +70,7 @@ export default function Home(): JSX.Element {
         boxSizing : 'border-box',
       }}>
         
-        {/* Top navigation */}
+        {/* 5. Top navigation */}
         <header style={{
           display: 'flex',
           alignItems: 'center',
@@ -77,6 +78,7 @@ export default function Home(): JSX.Element {
           padding: '20px 0', 
         }}>
           
+          {/* 헤더 왼쪽: 로고 + 텍스트 */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{
               width: 40,
@@ -100,6 +102,7 @@ export default function Home(): JSX.Element {
             </div>
           </div>
           
+          {/* 헤더 오른쪽: 메뉴 */}
           <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
             <Link href="/context" style={{ color: '#fff', textDecoration: 'none', fontSize: 18 }}>프롬프트 생성</Link>
             <a href="#" style={{ color: '#fff', cursor: 'pointer', fontSize: 18, textDecoration: 'none' }}>도움말</a>
@@ -119,88 +122,23 @@ export default function Home(): JSX.Element {
           </div>
         </header>
 
-        {/* Hero */}
-        <section style={{ padding: '80px 0 20px 0' }}>
-          <h1 style={{
-            fontSize: 64,
-            lineHeight: '77px',
-            fontWeight: 700,
-            margin: 0,
-            maxWidth: 813,
-          }}>
-            AI 프롬프트를 더욱<br />스마트하게
-          </h1>
-          <p style={{
-            color: 'rgba(193,197,204,0.8)',
-            marginTop: 16,
-            fontWeight: 700,
-            fontSize: 24,
-          }}>
-            프롬프트 생성, 비교, 추천까지 한번에
-          </p>
-          <div style={{ marginTop: 40, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            <Link href="/create" style={{
-              width: 266,
-              height: 60,
-              background: '#31C79B',
-              borderRadius: 10,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: 700,
-              fontSize: 24,
-              color: '#FFFFFF',
-              textDecoration: 'none',
-            }}>
-              프롬프트 생성하기
-            </Link>
-            
-            <Link href="/introduce" style={{
-              boxSizing: 'border-box',
-              width: 184,
-              height: 60,
-              border: '1px solid #31C79B',
-              borderRadius: 10,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#fff',
-              fontWeight: 700,
-              fontSize: 22,
-              background: 'transparent', 
-              cursor: 'pointer', 
-              fontFamily: "'Noto Sans KR', Arial, sans-serif", 
-            }}>
-              기능 살펴보기
-            </Link>
-          </div>
-        </section>
-
-        {/* Main feature cards */}
-        <main style={{ padding: '20px 0 120px 0' }}>
+        {/* 7. Main feature cards */}
+  <main style={{ padding: '20px 0 120px 0' }}>
           <h2 style={{ fontSize: 48, fontWeight: 700, marginBottom: 24 }}>
             주요 기능
           </h2>
           <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', justifyContent: 'center' }}>
             {featureCards.map((card) => (
-              <Link 
-                key={card.tag} 
-                href={card.href}
-                style={{
-                  boxSizing: 'border-box',
-                  width: 'calc((100% - 48px) / 3)',
-                  minWidth: 300,
-                  height: 571,
-                  background: '#0B1B31',
-                  border: '1px solid #132843',
-                  borderRadius: 10,
-                  padding: '24px 22px',
-                  textDecoration: 'none',
-                  color: 'inherit',
-                  cursor: 'pointer',
-                  display: 'block'
-                }}
-              >
+              <div key={card.tag} style={{
+                boxSizing: 'border-box',
+                width: 'calc((100% - 48px) / 3)',
+                minWidth: 300,
+                height: 571,
+                background: '#0B1B31',
+                border: '1px solid #132843',
+                borderRadius: 10,
+                padding: '24px 22px'
+              }}>
                 <div style={{
                   width: 120,
                   height: 40,
@@ -251,15 +189,16 @@ export default function Home(): JSX.Element {
                     {card.demoText}
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
 
-          {/* AI Chat 섹션 */}
+          {/* 8. AI Chat 섹션 */}
           <section style={{ marginTop: 120 }}>
             <h2 style={{ fontSize: 48, fontWeight: 700, marginBottom: 24 }}>
               AI에게 맞춤 추천 받기
             </h2>
+            {/* 사용자 입력 버블 */}
             <div style={{ padding: '20px 0' }}>
               <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 20 }}>
                 <div style={{
@@ -274,6 +213,7 @@ export default function Home(): JSX.Element {
                   안녕
                 </div>
               </div>
+              {/* AI 응답 버블 */}
               <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
                 <div style={{
                   width: 28,
@@ -304,8 +244,16 @@ export default function Home(): JSX.Element {
                   안녕하세요 프롬프트 제작 ai Promty 입니다. 당신의 상황을 설명해주시겠습니까?
                 </div>
               </div>
+
+
             </div>
                         
+            {/* 🔥 [수정] 
+              1. <form>을 <Link href="/context">로 변경
+              2. 내부에 있던 <textarea>와 <button>을 전부 <div>로 변경
+              3. Link에 textDecoration: 'none' 스타일 추가
+              4. 최상위 <div>에 cursor: 'pointer' 추가
+            */}
             <Link href="/context" style={{ textDecoration: 'none' }}>
               <div style={{
                 boxSizing: 'border-box',
@@ -318,12 +266,14 @@ export default function Home(): JSX.Element {
                 borderRadius: 20,
                 padding: '20px',
                 position: 'relative',
-                cursor: 'pointer'
+                cursor: 'pointer' // 클릭 가능하다는 표시
               }}>
+                {/* <textarea> 대신 <div>로 변경 (플레이스홀더 텍스트처럼 보이게) */}
                 <div
                   style={{
                     fontSize: 20,
                     fontWeight: 700,
+                    // placeholder 색상 적용
                     color: 'rgba(193, 197, 204, 0.35)', 
                     fontFamily: "'Noto Sans KR', Arial, sans-serif", 
                     width: '100%',
@@ -336,6 +286,7 @@ export default function Home(): JSX.Element {
                 >
                   Promty한테 물어보세요
                 </div>
+                {/* <button> 대신 <div>로 변경 (기존 스타일 유지) */}
                 <div style={{
                   width: 35,
                   height: 35,
@@ -356,10 +307,11 @@ export default function Home(): JSX.Element {
             </Link>
           </section>
 
+
         </main>
       </div>
 
-      {/* Footer */}
+      {/* 9. Footer */}
       <footer style={{
         width: '100%',
         height: 392,
@@ -370,6 +322,7 @@ export default function Home(): JSX.Element {
         marginTop: 100 
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+          {/* 푸터 로고 */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ 
               width: 48, 
@@ -394,6 +347,7 @@ export default function Home(): JSX.Element {
           </div>
           <div style={{ fontSize: 18, color: '#7E8794' }}>Promty.com (아무튼 사이트 주소)</div>
           
+          {/* 푸터 링크 */}
           <div style={{ display: 'flex', gap: 16, marginTop: 20, fontSize: 18 }}>
             <a href="#" style={{ color: '#C1C5CC', textDecoration: 'none' }}>버그 및 불편사항 제보</a>
             <div style={{ color: '#4D5664' }}>|</div>
