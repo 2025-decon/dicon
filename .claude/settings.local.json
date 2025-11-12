@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm install)",
+      "Bash(npm run start:dev:*)",
+      "Bash(npm install:*)",
+      "Bash(mysql --version:*)",
+      "Bash(sc query:*)",
+      "Bash(net start:*)",
+      "Bash(findstr:*)",
+      "Bash(where:*)",
+      "Bash(\"C:/Program Files/MySQL/MySQL Server 8.0/bin/mysql.exe\" -u root -e \"CREATE DATABASE IF NOT EXISTS dicon;\")",
+      "Bash(\"C:/Program Files/MySQL/MySQL Server 8.0/bin/mysql.exe\" -u root -pGswkang2009! -e \"CREATE DATABASE IF NOT EXISTS dicon;\")",
+      "Bash(curl:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
