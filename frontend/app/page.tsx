@@ -22,7 +22,7 @@ export default function Home(): JSX.Element {
       title: '상황을 입력하면 자동으로 맞춤형 프롬프트를 제작',
       description: '자신의 상황에 가장 적절한 프롬프트를 맞춤 제작 받아보세요.',
       demoText: '당신이 처한 상황을 설명해주세요.',
-      href: '/create'
+      href: '/context'
     },
     {
       tag: '아이디어공유',
@@ -36,7 +36,7 @@ export default function Home(): JSX.Element {
       title: '나의 상황에 대응하기 가장 적절한 AI 맞춤 추천',
       description: '자신이 처한 상황에 가장 적절한 AI를 추천받아 사용해보세요.',
       demoText: '인기글',
-      href: '/context'
+      href: '/recommend'
     }
   ];
 
@@ -152,7 +152,7 @@ export default function Home(): JSX.Element {
               color: '#FFFFFF',
               textDecoration: 'none',
             }}>
-              프롬프트 생성하기
+              AI와 대화하기
             </Link>
             
             <Link href="/introduce" style={{
